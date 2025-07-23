@@ -3,7 +3,7 @@ import api from '../ui_components/api'
 export async function getBlogs(page) {
      
     try {
-        const response = await api.get(`blog_list?page=${page}`)
+        const response = await api.get(`blog_list/?page=${page}`)
         return response.data
 
     } catch (error) {
