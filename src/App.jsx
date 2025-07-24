@@ -7,30 +7,47 @@ import ProfilePage from "./ui_components/ProfilePage"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import AppLayout from "./ui_components/AppLayout"
 import HomePage from "./pages/HomePage"
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import SignUpPage from "./pages/SignUpPage"
 import CreatePostPage from "./pages/CreatePostPage"
 import LoginPage from "./pages/LoginPage"
 import ProtectedRoutes from "./ui_components/ProtectedRoutes"
 import PageNotFound from "./ui_components/PageNotFound"
+import { useEffect, useState } from "react"
+import { getUsername } from "./services/apiBlog"
+import { useQuery } from "@tanstack/react-query"
 
-const queryClient = new QueryClient()
 
 const App = () => {
+  const [username, setUserName] = useState(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  const {data} = useQuery({
+    queryKey: ["username"],
+    queryFn: getUsername
+  })
+
+useEffect(function() {
+  if(data){
+    setUserName(data.username)
+    setIsAuthenticated(true)
+  }
+}, [data] )
+
+
   return (
-    <QueryClientProvider client={queryClient}>
+    
     
    <BrowserRouter>
       <Routes>
-            <Route path="/" element={<AppLayout/>}>
+            <Route path="/" element={<AppLayout isAuthenticated={isAuthenticated} username={username} setUserName={setUserName} setIsAuthenticated={setIsAuthenticated}/>}>
             <Route index element={<HomePage/>}/>
-            <Route path="/blogs/:slug" element={<DetailedPage/>}/>
+            <Route path="/blogs/:slug" element={<DetailedPage username={username} isAuthenticated={isAuthenticated}/>}/>
             {/* <Route path="profile" element={<ProfilePage/>}/> */}
             <Route path="signup" element={<SignUpPage/>}/>
             <Route path="*" element={<PageNotFound/>}/>
 
-            <Route path="create" element={<ProtectedRoutes><CreatePostPage/></ProtectedRoutes>}/>
-            <Route path="signin" element={<LoginPage/>}/>
+            <Route path="create" element={<ProtectedRoutes><CreatePostPage isAuthenticated={isAuthenticated}/></ProtectedRoutes>}/>
+            <Route path="signin" element={<LoginPage setIsAuthenticated={setIsAuthenticated} setUserName={setUserName}/>}/>
 
 
             
@@ -39,7 +56,6 @@ const App = () => {
             </Route>
       </Routes>
    </BrowserRouter>
-   </QueryClientProvider>
   )
 
 }

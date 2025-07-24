@@ -16,7 +16,7 @@ const CardFooter = ({blog}) => {
             </div>
 
             <small className='text-[#97989F] text-[12px] font-semibold'>
-                {blog.author.first_name} {blog.author.last_name}
+                 {blog.author?.first_name || blog.author?.username || "Unknown"} {blog.author?.last_name || ""}
             </small>
         </span>
 

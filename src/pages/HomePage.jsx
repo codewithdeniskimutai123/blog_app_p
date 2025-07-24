@@ -7,7 +7,7 @@ import { useState } from "react"
 
 const HomePage = () => {
   const[page, setPage] = useState(1)
-  const numOfBlogsPerPage = 3
+  const numOfBlogsPerPage = 2
 
   const {isPending, isError, error, data} = useQuery({
     queryKey: ['blogs', page],
@@ -21,11 +21,11 @@ function handleSetPage(val){
   setPage(val)
 }
 function increasePageValue(){
-  setPage(curr => curr + 1);
+  setPage(curr => (curr < numOfPages ? curr + 1 : curr));
 }
 
 function decreasePageValue(){
-  setPage(curr => curr - 1);
+  setPage(curr => (curr > 1 ? curr - 1 : curr));
 }
 
 

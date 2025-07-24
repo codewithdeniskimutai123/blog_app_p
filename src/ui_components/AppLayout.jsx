@@ -6,7 +6,7 @@ import {useState, useEffect} from "react";
 import { ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-const AppLayout = () => {
+const AppLayout = ({isAuthenticated, username, setUserName, setIsAuthenticated}) => {
 
   useEffect(() => {
     if(localStorage.getItem("dark") === null){
@@ -27,7 +27,7 @@ const AppLayout = () => {
     <div className={darkMode ? "dark":"" }>
         <main className='w-full bg-[#ffffff] dark:bg-[#181A2A]'>
 
-            <Navbar darkMode={darkMode} handleDarkMode={handleDarkMode}/>
+            <Navbar darkMode={darkMode} handleDarkMode={handleDarkMode} setIsAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} username={username} setUserName={setUserName}/>
             <ToastContainer />
             <Outlet/>
             <Footer/>

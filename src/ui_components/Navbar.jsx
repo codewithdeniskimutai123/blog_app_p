@@ -4,9 +4,16 @@ import ResponsiveNavbar from "./ResponsiveNavbar";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const Navbar = ({darkMode, handleDarkMode}) => {
+const Navbar = ({darkMode, handleDarkMode, isAuthenticated, username, setIsAuthenticated}) => {
 
   const[showNavBar, setShowNavBar] = useState(false)
+
+  function logout(){
+    localStorage.removeItem("access")
+    localStorage.removeItem("refresh")
+    setIsAuthenticated(false)
+    setIsAuthenticated(null)
+  }
 
 
   function showNav(){
@@ -23,26 +30,30 @@ const Navbar = ({darkMode, handleDarkMode}) => {
             {/* <NavLink to="/profile" className={({isActive})=> isActive? "active": ""}>
             <li>hi, kim</li>
             </NavLink> */}
+          {isAuthenticated ? <>
+              <li>Hi, {username}</li>
+              <li onClick={logout} className="cursor-pointer">Logout</li>
+          </>:
+          <>
+                <NavLink to="/signin" className={({isActive})=> isActive? "active": ""}>
+                  <li>Login</li>
+                  </NavLink>
 
-           <NavLink to="/signin" className={({isActive})=> isActive? "active": ""}>
-            <li>Login</li>
-            </NavLink>
-
-            <NavLink to="/signup" className={({isActive})=> isActive? "active": ""}>
-            <li>Register</li>
-            </NavLink>
-
-            <NavLink to="/create" className={({isActive})=> isActive? "active": ""}>
+                  <NavLink to="/signup" className={({isActive})=> isActive? "active": ""}>
+                  <li>Register</li>
+                  </NavLink>
+          </>
+          }
+          <NavLink to="/create" className={({isActive})=> isActive? "active": ""}>
             <li>Create Post</li>
             </NavLink>
-
             
         </ul>
 
         <Switch onCheckedChange={handleDarkMode} checked={darkMode}/>
         <FaHamburger onClick={showNav} className='text-2xl cursor-pointer lg:hidden block dark:text-white'/>
     </nav>
-    { showNavBar && <ResponsiveNavbar/> }
+    { showNavBar && <ResponsiveNavbar isAuthenticated={isAuthenticated} username={username} logout={logout}/> }
 </>
   )
 }
