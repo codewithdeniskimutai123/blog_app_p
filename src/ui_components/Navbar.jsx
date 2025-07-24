@@ -23,7 +23,7 @@ const Navbar = ({darkMode, handleDarkMode, isAuthenticated, username, setIsAuthe
     <>
     <nav className="container p-4 flex justify-between items-center gap-6 sticky backdrop-blur-lg top-0 z-10 bg-[white] dark:bg-[#141624] border-b-2 border-black-sm">
         <Link to="/" className="text-[#141624] text-2xl dark:text-[#ffffff]">
-            DevFolio
+            ProKimutai.D
         </Link>
 
         <ul className="flex items-center justify-end gap-9 text-[#383c4A] lg:flex-1 max-md:hidden dark:text-[#ffffff] backdrop-blur-lg">
