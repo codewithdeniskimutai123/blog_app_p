@@ -2,8 +2,8 @@ import React from 'react'
 
 const PageNotFound = () => {
   return (
-    <div className='text-white items-center uppercase mx-[20px] dark:text-white container flex w-lvw justify-center bg-gray-700'>
-        <h1>PageNotFound!!!</h1>
+    <div className="container mx-auto px-4 py-10 flex justify-center items-center bg-gray-700 text-white uppercase text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">PageNotFound!!!</h1>
     </div>
   )
 }

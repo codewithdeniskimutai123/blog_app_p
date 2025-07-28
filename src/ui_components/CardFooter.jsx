@@ -2,9 +2,11 @@ import React from 'react'
 import { BASE_URL } from './api'
 import { formatDate } from '@/services/formatDate'
 import pic from '../images/pic.jpg'
+import { Link } from 'react-router-dom'
 
 const CardFooter = ({blog}) => {
   return (
+    <Link to={`/profile/${blog?.author?.username || blog?.author?.first_name || blog?.author?.last_name || ""}`}>
     <div className='flex items-center gap-4'>
         <span className='flex items-center gap-2'>
             <div className='w-[40px] h-[40px] rounded-full overflow-hidden'>
@@ -24,6 +26,7 @@ const CardFooter = ({blog}) => {
             {formatDate(blog.publish_date)}
         </small>
     </div>
+    </Link>
   )
 }
 

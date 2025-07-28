@@ -2,8 +2,7 @@ import React from 'react'
 import BlogCard from './BlogCard'
 import Spinner from './Spinner'
 
-// continue from spinning 2:16
-const BlogContainer = ({isPending, blogs}) => {
+const BlogContainer = ({isPending, blogs=[], title="Latest Posts"}) => {
   if(isPending){
     return <Spinner/>
   }
@@ -11,7 +10,7 @@ const BlogContainer = ({isPending, blogs}) => {
   return (
     <section className='container px-4 py-6'>
         <h2 className='font-semibold text-xl mb-6 dark:text-white text-center'>
-            Latest Posts
+            {title}
         </h2>
 
 

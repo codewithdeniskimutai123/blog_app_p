@@ -41,8 +41,9 @@ useEffect(function() {
       <Routes>
             <Route path="/" element={<AppLayout isAuthenticated={isAuthenticated} username={username} setUserName={setUserName} setIsAuthenticated={setIsAuthenticated}/>}>
             <Route index element={<HomePage/>}/>
+            <Route path="profile/:username" element={<ProfilePage authUsername={username}/>}/>
+
             <Route path="/blogs/:slug" element={<DetailedPage username={username} isAuthenticated={isAuthenticated}/>}/>
-            {/* <Route path="profile" element={<ProfilePage/>}/> */}
             <Route path="signup" element={<SignUpPage/>}/>
             <Route path="*" element={<PageNotFound/>}/>
 
@@ -59,8 +60,7 @@ useEffect(function() {
   )
 
 }
-// 4:04,starting with jwt
 
 export default App
 
-// 2:23. correcting the detail page on click of a blog. having issues with url, now looking for issues
+// 10:48 on user profile, make sure the userprofile links are working

@@ -1,7 +1,9 @@
 import React from 'react'
 import { BASE_URL } from './api'
+import { Link } from 'react-router-dom'
 const BlogWriter = ({blog}) => {
   return (
+    <Link to="/profile">
     <div className='flex gap-4 items-center'>
         <span className='flex gap-2 items-center'>
             <div className='w-[40px] h-[40px] rounded-full overflow-hidden'>
@@ -20,6 +22,7 @@ const BlogWriter = ({blog}) => {
 
 
     </div>
+    </Link>
     
   )
 }

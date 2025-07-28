@@ -2,20 +2,22 @@ import Badge from '@/ui_components/Badge'
 import React, { useState } from 'react'
 import banner from '../images/detailBanner.jpg'
 import BlogWriter from '@/ui_components/BlogWriter'
-import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
-import { getBlog } from '@/services/apiBlog'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useNavigate, useParams } from 'react-router-dom'
+import { deleteBlog, getBlog } from '@/services/apiBlog'
 import Spinner from '@/ui_components/Spinner'
 import { BASE_URL } from '@/ui_components/api'
 import { HiPencilAlt } from "react-icons/hi"
 import { MdDelete } from "react-icons/md"
 import Model from '@/ui_components/Model'
 import CreatePostPage from './CreatePostPage'
+import { toast } from 'react-toastify'
 
 const DetailedPage = ({username,isAuthenticated}) => {
 
     const { slug } = useParams()
     const [showModel, setShowModel] = useState(false)
+    const navigate = useNavigate()
 
     function toggleModel(){
         setShowModel(curr => !curr)
@@ -25,6 +27,34 @@ const DetailedPage = ({username,isAuthenticated}) => {
        queryKey: ['blogs', slug],
        queryFn: () => getBlog(slug)
     })
+
+   const blogID = blog?.id
+
+ const deleteMutation = useMutation({
+    mutationFn: (id) => deleteBlog(id),
+    onSuccess: () => {
+        navigate("/")
+        toast.success("Blog deleted successfully!!")
+    },
+    onError: (err) => {
+        console.log(err)
+        toast.error(err.message, "Blog failed to delete")
+    }
+ })
+
+ function handleDeleteBlog(){
+    const popUp = window.confirm("Are you sure you want to delete this post?")
+    if(!popUp){
+        return;
+    }
+    else{
+        deleteMutation.mutate(blogID)
+    }
+
+ }
+
+
+
 if(isPending){
     return <Spinner/>
 }
@@ -43,7 +73,7 @@ if(isPending){
 
                 <HiPencilAlt className='text-3xl cursor-pointer  ' onClick={toggleModel} />
 
-                <MdDelete className='text-3xl cursor-pointer'/>
+                <MdDelete className='text-3xl cursor-pointer' onClick={handleDeleteBlog}/>
 
             </span>
             
@@ -56,7 +86,7 @@ if(isPending){
         <BlogWriter blog={blog}/>
 
         <div className='w-full h-[350px] overflow-hidden rounded-sm'>
-            <img src={`${BASE_URL}${blog.featured_image}`} className='w-full h-full object-contain rounded-sm'/>
+            <img src={`${BASE_URL}${blog.featured_image}`} className='w-full h-full object-cover rounded-sm'/>
         </div>
 
         <p className='text-[16px] leading-[2rem] text-justify text-[#3B3CFA] dark:text-[#BABABF]'>
